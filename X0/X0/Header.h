@@ -9,8 +9,11 @@ using namespace std;
 //welcome screen - rules..
 void welcome();
 
-//settings: 1vs1; 1vsC
-void settings();
+//settings:  easy-1, medium-2; hard-3;
+int settingLevel();
+
+//setings: 1vs1-0; 1vsC-1;
+bool settingPlayer();
 
 //first player
 void firstPlayer();
@@ -31,7 +34,9 @@ void AI2Move();
 void AI3Move();
 
 //end game - we have a winner
-void winner();
+bool winner();
 
 //end game - we don't have a winner
-void tieGame();
+bool tieGame();
+
+void startGame();

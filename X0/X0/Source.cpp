@@ -1,10 +1,14 @@
 #include "Header.h"
 
 char board[3][3];
-int maxTuns;
+int maxTurnsPlayer = 0;
+int maxTurnsAI = 0;
 char player;
 char AI;
-
+int line;
+int column;
+int AItype;
+int setP, setL;
 //welcome screen - rules..
 void welcome()
 {
@@ -19,8 +23,37 @@ void welcome()
 	cout << '\n'; cout << '\n';
 }
 
-//settings: 1vs1; 1vsC
-void settings();
+//settings:  easy-1, medium-2; hard-3;
+int settingLevel()
+{
+	cout << "Alegeti dificultatea jocului: \nEasy -> 1 \nMedium -> 2 \nHard -> 3 \n";
+	int choice;
+	cin >> choice;
+	while (choice == 0 || choice >= 4)
+	{
+		cout << "Alegere incorecta! Introduceti alte date: ";
+		cin >> choice;
+	}
+
+	return choice;
+
+}
+
+//setings: 1vs1-0; 1vsC-1;
+bool settingPlayer()
+{
+	cout << "Alegeti tipul jocului: \nPlayer vs Player -> 0 \nPlayer vs Computer ->1 \n";
+
+	int choice;
+	cin >> choice;
+	while (choice >=2)
+	{
+		cout << "Alegere incorecta! Introduceti alte date: ";
+		cin >> choice;
+	}
+
+	return choice;
+}
 
 //first player
 void firstPlayer()
@@ -58,7 +91,29 @@ void printTurn()
 }
 
 //human moves
-void playerMove();
+void playerMove()
+{
+	cout << "Introduceti coordonatele: " << '\n';
+
+	cout << "Introduceti linia: ";
+	cin >> line;
+	while (line >= 3)
+	{
+		cout << "Date incorecte. Introduceti o valoare valida: \n";
+		cin >> line;
+	}
+
+	cout << "Introduceti coloana: ";
+	cin >> column;
+	while (column >= 3)
+	{
+		cout << "Date incorecte. Introduceti o valoare valida: \n";
+		cin >> column;
+	}
+	board[line][column] = 'X';
+	maxTurnsPlayer++;
+
+}
 
 //computer moves: easy AI
 void AI1Move();
@@ -70,7 +125,37 @@ void AI2Move();
 void AI3Move();
 
 //end game - we have a winner
-void winner();
+bool winner();
 
 //end game - we don't have a winner
-void tieGame();
+bool tieGame()
+{
+	if (maxTurnsPlayer == 8 || maxTurnsAI == 8)
+		return 1;
+	return 0;
+}
+
+void startGame()
+{
+	welcome();
+	printTurn();
+	setP = settingPlayer();
+	if (setP == 1)
+		setL = settingLevel();
+	
+	firstPlayer();
+	//while (!winner() || !tieGame())
+	{
+		if (player == 'X')
+		{
+			playerMove();
+			//AI1Move();
+		}
+		else
+		{
+			//AI1Move();
+			//playerMove();
+		}
+
+	}
+}

@@ -6,9 +6,7 @@ using namespace std;
 int main()
 {
 	//must do startGame function
-	welcome();
-	printTurn();
-	firstPlayer();
+	startGame();
 	system("pause");
 	return 0;
 }
