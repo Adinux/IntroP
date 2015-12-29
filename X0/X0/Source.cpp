@@ -1,8 +1,7 @@
 #include "Header.h"
 
 char board[3][3];
-int maxTurnsPlayer = 0;
-int maxTurnsAI = 0;
+int maxTurns = 0;
 char player;
 char AI;
 int line;
@@ -90,8 +89,8 @@ void printTurn()
 	cout << '\n';
 }
 
-//human moves
-void playerMove()
+//coordinates - validation
+void coordinates()
 {
 	cout << "Introduceti coordonatele: " << '\n';
 
@@ -110,13 +109,69 @@ void playerMove()
 		cout << "Date incorecte. Introduceti o valoare valida: \n";
 		cin >> column;
 	}
-	board[line][column] = 'X';
-	maxTurnsPlayer++;
+
+}
+//human moves
+void playerMove()
+{
+	coordinates();
+	if (board[line][column] == '_')
+	{
+		board[line][column] = player;
+		maxTurns++;
+	}
+	else
+	{
+		while (board[line][column] != '_')
+		{
+			cout << "Aceasta pozitie este ocupata! \n";
+
+			coordinates();
+		}
+		board[line][column] = player;
+		maxTurns++;
+
+	}
+	
 
 }
 
 //computer moves: easy AI
-void AI1Move();
+void AI1Move()
+{
+	int AIline, AIcolumn, ok = 0;
+	srand(time(NULL));
+	AIline = rand() % 3 ;
+	AIcolumn = rand() % 3 ;
+	while (board[AIline][AIcolumn] != '_')
+	{
+		for (int i = 0; i <= 2 && ok==0; i++)
+			if (board[AIline][i] == '_')
+			{
+				AIcolumn = i;
+				ok = 1;
+			}
+		
+		for (int i = 0; i <= 2 && ok == 0; i++)
+			if (board[i][AIcolumn] == '_')
+			{
+				AIline = i;
+				ok = 1;
+			}
+
+		if (ok == 0)
+		{
+			srand(time(NULL));
+			AIline = rand() % 3;
+			AIcolumn = rand() % 3;
+		}
+
+	}
+		
+	board[AIline][AIcolumn] = AI;
+	maxTurns++;
+
+}
 
 //computer moves: medium AI
 void AI2Move();
@@ -130,7 +185,7 @@ bool winner();
 //end game - we don't have a winner
 bool tieGame()
 {
-	if (maxTurnsPlayer == 8 || maxTurnsAI == 8)
+	if (maxTurns == 9)
 		return 1;
 	return 0;
 }
@@ -144,18 +199,35 @@ void startGame()
 		setL = settingLevel();
 	
 	firstPlayer();
-	//while (!winner() || !tieGame())
+	while (!tieGame())
 	{
 		if (player == 'X')
 		{
-			playerMove();
-			//AI1Move();
+			if (!tieGame())
+			{
+				playerMove();
+				printTurn();
+			}
+
+			if (!tieGame())
+			{
+				AI1Move();
+				printTurn();
+
+			}
+
 		}
 		else
 		{
-			//AI1Move();
-			//playerMove();
+			if(!tieGame())
+				AI1Move();
+			printTurn();
+			if(!tieGame())
+				playerMove();
+			
 		}
 
 	}
+	if(AI=='0')
+		printTurn();
 }
