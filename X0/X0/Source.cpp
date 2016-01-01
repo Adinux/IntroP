@@ -26,9 +26,9 @@ void welcome()
 int settingLevel()
 {
 	cout << "Alegeti dificultatea jocului: \nEasy -> 1 \nMedium -> 2 \nHard -> 3 \n";
-	int choice;
+	int choice;//caracter=> convertit in cifra.
 	cin >> choice;
-	while (choice == 0 || choice >= 4)
+	while (choice < 1 || choice > 3)
 	{
 		cout << "Alegere incorecta! Introduceti alte date: ";
 		cin >> choice;
@@ -180,7 +180,32 @@ void AI2Move();
 void AI3Move();
 
 //end game - we have a winner
-bool winner();
+bool winner()
+{
+	//diagonale
+	if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[1][1]!='_')
+		return 1;
+	if (board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[1][1] != '_')
+		return 1;
+
+	//linii
+	if (board[0][0] == board[0][1] && board[0][1] == board[0][2] && board[0][1] != '_')
+		return 1;
+	if (board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][1] != '_')
+		return 1;
+	if (board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][1] != '_')
+		return 1;
+
+	//coloane
+	if (board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[1][0] != '_')
+		return 1;
+	if (board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[1][1] != '_')
+		return 1;
+	if (board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[1][2] != '_')
+		return 1;
+
+	return 0;
+}
 
 //end game - we don't have a winner
 bool tieGame()
@@ -199,31 +224,48 @@ void startGame()
 		setL = settingLevel();
 	
 	firstPlayer();
-	while (!tieGame())
+	while (!tieGame() || !winner())
 	{
 		if (player == 'X')
 		{
-			if (!tieGame())
+			playerMove();
+			printTurn();
+
+			if (winner())
 			{
-				playerMove();
 				printTurn();
+				cout << "Ai castigat!\n";
+				break;
 			}
-
-			if (!tieGame())
+			else
 			{
-				AI1Move();
-				printTurn();
-
+				if (!tieGame())
+				{
+					AI1Move();
+					printTurn();
+				}
 			}
 
 		}
 		else
 		{
-			if(!tieGame())
-				AI1Move();
-			printTurn();
-			if(!tieGame())
-				playerMove();
+			if (winner())
+			{
+				printTurn();
+				cout << "Ai castigat!\n";
+				break;
+			}
+			else
+			{
+				if (!tieGame())
+					AI1Move();
+				printTurn();
+				if (winner())
+					cout << "Ai pierdut! \n";
+				else 
+					if (!tieGame())
+						playerMove();
+			}
 			
 		}
 
