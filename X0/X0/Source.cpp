@@ -8,6 +8,8 @@ int line;
 int column;
 int AItype;
 int setP, setL;
+char winnar;
+
 //welcome screen - rules..
 void welcome()
 {
@@ -42,13 +44,16 @@ int settingLevel()
 bool settingPlayer()
 {
 	cout << "Alegeti tipul jocului: \nPlayer vs Player -> 0 \nPlayer vs Computer ->1 \n";
-
+	
+	char input;
 	int choice;
 	cin >> choice;
-	while (choice >=2)
+
+	while (choice < 0 || choice > 1)
 	{
 		cout << "Alegere incorecta! Introduceti alte date: ";
 		cin >> choice;
+
 	}
 
 	return choice;
@@ -183,26 +188,51 @@ void AI3Move();
 bool winner()
 {
 	//diagonale
-	if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[1][1]!='_')
+	if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[1][1] != '_')
+	{
+		winnar = board[0][0];
 		return 1;
+	}
+		
 	if (board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[1][1] != '_')
+	{
+		winnar = board[2][0];
 		return 1;
+	}
 
 	//linii
 	if (board[0][0] == board[0][1] && board[0][1] == board[0][2] && board[0][1] != '_')
+	{
+		winnar = board[0][0];
 		return 1;
+	}
 	if (board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][1] != '_')
+	{
+		winnar = board[1][0];
 		return 1;
+	}
 	if (board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][1] != '_')
+	{
+		winnar = board[2][0];
 		return 1;
+	}
 
 	//coloane
 	if (board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[1][0] != '_')
+	{
+		winnar = board[0][0];
 		return 1;
+	}
 	if (board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[1][1] != '_')
+	{
+		winnar = board[0][1];
 		return 1;
+	}
 	if (board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[1][2] != '_')
+	{
+		winnar = board[0][2];
 		return 1;
+	}
 
 	return 0;
 }
@@ -215,8 +245,9 @@ bool tieGame()
 	return 0;
 }
 
-void startGame()
+void startGame(int &totalGemes, int &winGames)
 {
+	totalGemes++;
 	welcome();
 	printTurn();
 	setP = settingPlayer();
@@ -234,7 +265,7 @@ void startGame()
 			if (winner())
 			{
 				printTurn();
-				cout << "Ai castigat!\n";
+				cout << "A castigat jucatorul "<<winnar<<'\n';
 				break;
 			}
 			else
@@ -242,6 +273,12 @@ void startGame()
 				if (!tieGame())
 				{
 					AI1Move();
+					if (winner())
+					{
+						printTurn();
+						cout << "A castigat jucatorul " << winnar << '\n';
+						break;
+					}
 					printTurn();
 				}
 			}
@@ -252,7 +289,7 @@ void startGame()
 			if (winner())
 			{
 				printTurn();
-				cout << "Ai castigat!\n";
+				cout << "A castigat jucatorul " << winnar << '\n';
 				break;
 			}
 			else
@@ -261,7 +298,7 @@ void startGame()
 					AI1Move();
 				printTurn();
 				if (winner())
-					cout << "Ai pierdut! \n";
+					cout << "A castigat jucatorul " << winnar << '\n';
 				else 
 					if (!tieGame())
 						playerMove();

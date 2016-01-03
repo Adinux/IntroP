@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-
+#include <fstream>
 using namespace std;
 
 
@@ -39,4 +39,4 @@ bool winner();
 //end game - we don't have a winner
 bool tieGame();
 
-void startGame();
+void startGame(int &totalGemes, int &winGames);
