@@ -3,25 +3,34 @@
 #include <fstream>
 
 using namespace std;
-fstream file("scor.txt");
+
 
 
 int main()
 {
 	int totalGames=0, winGames=0;
 
-	file << "0";
-	file >> totalGames;
+	fstream f;
+	f.open("Games.txt");
+	f >> totalGames;
+	f.close();
 
-	//file >> totalGames;
-	//file >> winGames;
-
-
+	fstream g;
+	g.open("Wins.txt");
+	g >> winGames;
+	g.close();
+	
 	startGame(totalGames, winGames);
-	cout << totalGames<<" "<<winGames;
-	file << totalGames<<'\n';
-	//file << winGames;
-	file.close();
+
+	f.open("Games.txt");
+	g.open("Wins.txt");
+
+	f << totalGames;
+	g << winGames;
+
+	f.close();
+	g.close();
+
 	system("pause");
 	return 0;
 }

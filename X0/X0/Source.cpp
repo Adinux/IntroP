@@ -266,6 +266,8 @@ void startGame(int &totalGemes, int &winGames)
 			{
 				printTurn();
 				cout << "A castigat jucatorul "<<winnar<<'\n';
+				if (winnar == player)
+					winGames++;
 				break;
 			}
 			else
@@ -277,6 +279,8 @@ void startGame(int &totalGemes, int &winGames)
 					{
 						printTurn();
 						cout << "A castigat jucatorul " << winnar << '\n';
+						if (winnar == player)
+							winGames++;
 						break;
 					}
 					printTurn();
@@ -290,6 +294,8 @@ void startGame(int &totalGemes, int &winGames)
 			{
 				printTurn();
 				cout << "A castigat jucatorul " << winnar << '\n';
+				if (winnar == player)
+					winGames++;
 				break;
 			}
 			else
@@ -299,8 +305,10 @@ void startGame(int &totalGemes, int &winGames)
 				printTurn();
 				if (winner())
 					cout << "A castigat jucatorul " << winnar << '\n';
+				if (winnar == player)
+					winGames++;
 				else 
-					if (!tieGame())
+					if (!tieGame() && !winner())
 						playerMove();
 			}
 			
