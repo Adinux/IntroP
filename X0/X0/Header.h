@@ -33,6 +33,7 @@ void AI2Move();
 //computer moves: hard AI
 void AI3Move();
 
+
 //end game - we have a winner
 bool winner();
 
