@@ -307,6 +307,7 @@ void getCorner(int &x, int &y)
 //computer moves: medium AI
 void AI2Move()
 {
+	
 	int x = -1, y = -1;
 
 	if (board[1][1] == '_')
@@ -348,6 +349,8 @@ void AI2Move()
 
 		}
 	}
+
+	//AI1Move();
 
 }
 
@@ -437,7 +440,7 @@ void startGame(int &totalGames, int &winGames)
 		setL = settingLevel();
 	
 	firstPlayer();
-	while (tieGame()==0 || winner()==0)
+	while (tieGame()==0 && winner()==0)
 	{
 		if (player == 'X')
 		{
