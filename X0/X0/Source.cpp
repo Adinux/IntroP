@@ -3,6 +3,7 @@
 char board[3][3];
 int maxTurns = 0;
 char player;
+char opponent;
 char AI;
 int line;
 int column;
@@ -10,6 +11,12 @@ int AItype;
 int setP, setL;
 char winnar;
 
+struct Player {
+	char mark;
+	int id;
+};
+
+Player gamer1, gamer2;
 //welcome screen - rules..
 void welcome()
 {
@@ -22,6 +29,17 @@ void welcome()
 
 	cout << "X si Zero este un joc la care participa doi jucatori: unul joaca cu semnul X si celalalt joaca cu 0. Ambii muta alternativ, incepand cu jucatorul X. Ei pot muta doar in patratelele libere. Initial, tabla este alcatuita din 9 patratele goale, aliniate intr-o tabla de 3x3. Scopul jocului este de a face 3 semne proprii pe o linie, coloana sau diagonala. Daca tabla este plina dar nici un jucator nu a reusit sa indeplineasca acest scop, atunci jocul se termina remiza.";
 	cout << '\n'; cout << '\n';
+}
+
+void welcomePlayers()
+{
+	cout << "Introduceti id-ul primului jucator: ";
+	cin >> gamer1.id;
+
+	cout << "Introduceti id-ul jucatorului al doilea: ";
+	cin >> gamer2.id;
+
+	cout << '\n';
 }
 
 //settings:  easy-1, medium-2; hard-3;
@@ -70,7 +88,7 @@ void firstPlayer()
 	{
 		player = 'X';
 		AI = '0';
-		cout << "Tu esti primul! " << '\n';
+		cout << "Primul jucator esti tu! " << '\n';
 		cout << '\n';
 	}
 	else
@@ -81,6 +99,29 @@ void firstPlayer()
 		cout << '\n';
 	}
 }
+
+void firstPlayerVsPlayer()
+{
+	int r;
+	srand(time(NULL));
+	r = rand() % 2 + 1;
+
+	if (r == 1)
+	{
+		gamer1.mark = 'X';
+		gamer2.mark = '0';
+		cout << "Primul jucator este " << gamer1.id << '\n';
+		cout << '\n';
+	}
+	else
+	{
+		gamer1.mark = '0';
+		gamer2.mark = 'X';
+		cout << "Primul jucator este " << gamer2.id << '\n';
+		cout << '\n';
+	}
+}
+
 
 //cout turn
 void printTurn()
@@ -117,7 +158,7 @@ void coordinates()
 
 }
 //human moves
-void playerMove()
+void playerMove(int player)
 {
 	coordinates();
 	if (board[line][column] == '_')
@@ -358,7 +399,6 @@ void AI2Move()
 void AI3Move();
 
 
-
 void move(int a)
 {
 	if (a == 1)
@@ -430,27 +470,22 @@ bool tieGame()
 	return 0;
 }
 
-void startGame(int &totalGames, int &winGames)
+
+void playerVsComputer(int &totalGames, int &winGames)
 {
 	totalGames++;
-	welcome();
-	printTurn();
-	setP = settingPlayer();
-	if (setP == 1)
-		setL = settingLevel();
-	
-	firstPlayer();
-	while (tieGame()==0 && winner()==0)
+
+	while (tieGame() == 0 && winner() == 0)
 	{
 		if (player == 'X')
 		{
-			playerMove();
+			playerMove(player);
 			printTurn();
 
 			if (winner())
 			{
 				printTurn();
-				cout << "A castigat jucatorul "<<winnar<<'\n';
+				cout << "A castigat jucatorul " << winnar << '\n';
 				if (winnar == player)
 					winGames++;
 				break;
@@ -468,7 +503,8 @@ void startGame(int &totalGames, int &winGames)
 							winGames++;
 						break;
 					}
-					printTurn();
+					else 
+						printTurn();
 				}
 			}
 
@@ -492,14 +528,114 @@ void startGame(int &totalGames, int &winGames)
 					cout << "A castigat jucatorul " << winnar << '\n';
 				if (winnar == player)
 					winGames++;
-				else 
+				else
 					if (!tieGame() && !winner())
-						playerMove();
+					{
+						playerMove(player);
+						printTurn();
+						if (winner())
+							cout << "A castigat jucatorul " << winnar << '\n';
+						if (winnar == player)
+							winGames++;
+					}
 			}
-			
+
 		}
 
 	}
-	if(AI=='0')
-		printTurn();
+	/*
+	if (AI == '0')
+		printTurn();*/
+
+	if (tieGame())
+		cout << "Nimeni nu a castigat!\n";
+
+	cout << "Jocuri totale: " << totalGames << '\n';
+	cout << "Jocuri castigate: " << winGames << '\n';
+	//cout << (float)totalGames / winGames;
+
+}
+
+
+void playerVsPlayer()
+{
+
+	while (winner() == 0 && tieGame() == 0)
+	{
+		if (gamer1.mark == 'X')
+		{
+			playerMove(gamer1.mark);
+			printTurn();
+
+			if (winner())
+			{
+				printTurn();
+				cout << "A castigat jucatorul: " << gamer1.id << '\n';
+				break;
+			}
+			else {
+				if (!tieGame())
+				{
+					playerMove(gamer2.mark);
+					if (winner())
+					{
+						printTurn();
+						cout << "A castigat jucatorul: " << gamer2.id << '\n';
+						break;
+					}
+					else printTurn();
+				}
+			}
+		}
+		else
+		{
+			playerMove(gamer2.mark);
+			printTurn();
+			if (winner())
+			{
+				printTurn();
+				cout << "A castigat jucatorul: " << gamer2.id << '\n';
+				break;
+			}
+			else {
+				if (!tieGame())
+				{
+					playerMove(gamer1.mark);
+					if (winner())
+					{
+						printTurn();
+						cout << "A castigat jucatorul: " << gamer1.id << '\n';
+						break;
+					}
+					else printTurn();
+				}
+			}
+
+
+		}
+	}
+
+	if (tieGame())
+		cout << "Nimeni nu a castigat!\n";
+
+}
+
+
+void startGame(int &totalGames, int &winGames)
+{
+	welcome();
+	printTurn();
+	setP = settingPlayer();
+	if (setP == 1)
+	{
+		setL = settingLevel();
+		firstPlayer();
+		playerVsComputer(totalGames,winGames);
+	}
+	else
+	{
+		welcomePlayers();
+		firstPlayerVsPlayer();
+		playerVsPlayer();
+	}
 }

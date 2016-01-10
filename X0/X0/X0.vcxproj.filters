@@ -28,12 +28,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="scor.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="test.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="Games.txt">
       <Filter>Resource Files</Filter>
     </Text>

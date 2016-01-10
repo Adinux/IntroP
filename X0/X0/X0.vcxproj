@@ -118,8 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Games.txt" />
-    <Text Include="scor.txt" />
-    <Text Include="test.txt" />
     <Text Include="Wins.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
