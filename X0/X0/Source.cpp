@@ -1,4 +1,5 @@
 #include "Header.h"
+#include <cstring>
 
 char board[3][3];
 int maxTurns = 0;
@@ -27,54 +28,74 @@ void welcome()
 
 	}
 
-	cout << "X si Zero este un joc la care participa doi jucatori: unul joaca cu semnul X si celalalt joaca cu 0. Ambii muta alternativ, incepand cu jucatorul X. Ei pot muta doar in patratelele libere. Initial, tabla este alcatuita din 9 patratele goale, aliniate intr-o tabla de 3x3. Scopul jocului este de a face 3 semne proprii pe o linie, coloana sau diagonala. Daca tabla este plina dar nici un jucator nu a reusit sa indeplineasca acest scop, atunci jocul se termina remiza.";
+	cout << "X si Zero este un joc la care participa doi jucatori: \nunul joaca cu semnul X si celalalt joaca cu 0. \nAmbii muta alternativ, incepand cu jucatorul X. \nEi pot muta doar in patratelele libere. \nInitial, tabla este alcatuita din 9 patratele goale, \naliniate intr-o tabla de 3x3. \nScopul jocului este de a face 3 semne proprii pe o linie, coloana sau diagonala. \nDaca tabla este plina dar nici un jucator nu a reusit sa indeplineasca acest scop, atunci jocul se termina remiza.";
 	cout << '\n'; cout << '\n';
 }
 
 void welcomePlayers()
 {
+	char input[10];
+
 	cout << "Introduceti id-ul primului jucator: ";
-	cin >> gamer1.id;
+
+	fgets(input, 10, stdin);
+	while (atof(input) == 0)
+	{
+		cout << "Date incorecte!\n";
+		fgets(input, 10, stdin);
+	}
+
+	gamer1.id = atoi(input);
 
 	cout << "Introduceti id-ul jucatorului al doilea: ";
-	cin >> gamer2.id;
 
+	fgets(input, 10, stdin);
+	while (atof(input) == 0)
+	{
+		cout << "Date incorecte!\n";
+		fgets(input, 10, stdin);
+	}
+
+	gamer2.id = atoi(input);
 	cout << '\n';
 }
 
 //settings:  easy-1, medium-2; hard-3;
 int settingLevel()
 {
+	char input[10];
+	
 	cout << "Alegeti dificultatea jocului: \nEasy -> 1 \nMedium -> 2 \nHard -> 3 \n";
-	int choice;//caracter=> convertit in cifra.
-	cin >> choice;
-	while (choice < 1 || choice > 3)
+
+	fgets(input, 10, stdin);
+
+	while (atof(input) != 2 && atof(input) !=2 && atof(input) !=3 )
 	{
-		cout << "Alegere incorecta! Introduceti alte date: ";
-		cin >> choice;
+		cout << "Date incorecte!\n";
+		fgets(input,10, stdin);
 	}
 
-	return choice;
+	return atoi(input);
 
 }
 
-//setings: 1vs1-0; 1vsC-1;
-bool settingPlayer()
+//setings: 1vs1-2; 1vsC-1;
+int settingPlayer()
 {
-	cout << "Alegeti tipul jocului: \nPlayer vs Player -> 0 \nPlayer vs Computer ->1 \n";
+	cout << "Alegeti tipul jocului: \nPlayer vs Computer -> 1 \nPlayer vs Player ->2 \n";
 	
-	char input;
-	int choice;
-	cin >> choice;
+	char input[10];
 
-	while (choice < 0 || choice > 1)
+
+	fgets(input, 10, stdin);
+
+	while (atof(input) != 2 && atof(input) != 2)
 	{
-		cout << "Alegere incorecta! Introduceti alte date: ";
-		cin >> choice;
-
+		cout << "Date incorecte!\n";
+		fgets(input, 10, stdin);
 	}
 
-	return choice;
+	return atoi(input);
 }
 
 //first player

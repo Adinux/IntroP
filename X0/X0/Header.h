@@ -13,7 +13,7 @@ void welcome();
 int settingLevel();
 
 //setings: 1vs1-0; 1vsC-1;
-bool settingPlayer();
+int settingPlayer();
 
 //first player
 void firstPlayer();
