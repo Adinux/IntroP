@@ -11,6 +11,7 @@ int column;
 int AItype;
 int setP, setL;
 char winnar;
+int dim;
 
 struct Player {
 	char mark;
@@ -28,7 +29,7 @@ void welcome()
 
 	}
 
-	cout << "X si Zero este un joc la care participa doi jucatori: \nunul joaca cu semnul X si celalalt joaca cu 0. \nAmbii muta alternativ, incepand cu jucatorul X. \nEi pot muta doar in patratelele libere. \nInitial, tabla este alcatuita din 9 patratele goale, \naliniate intr-o tabla de 3x3. \nScopul jocului este de a face 3 semne proprii pe o linie, coloana sau diagonala. \nDaca tabla este plina dar nici un jucator nu a reusit sa indeplineasca acest scop, atunci jocul se termina remiza.";
+	cout << "X si Zero este un joc la care participa doi jucatori: \n\nUnul joaca cu semnul X si celalalt joaca cu 0. \n\nAmbii muta alternativ, incepand cu jucatorul X. \n\nEi pot muta doar in patratelele libere. \n\nInitial, tabla este alcatuita din 9 patratele goale, \n\nAliniate intr-o tabla de 3x3. \n\nScopul jocului este de a face 3 semne proprii pe o linie, coloana sau diagonala. \nDaca tabla este plina dar nici un jucator nu a reusit sa indeplineasca \n\nAcest scop, atunci jocul se termina remiza.";
 	cout << '\n'; cout << '\n';
 }
 
@@ -65,11 +66,11 @@ int settingLevel()
 {
 	char input[10];
 	
-	cout << "Alegeti dificultatea jocului: \nEasy -> 1 \nMedium -> 2 \nHard -> 3 \n";
+	cout << "Alegeti dificultatea jocului: \nEasy -> 1 \nMedium -> 2 \n";
 
 	fgets(input, 10, stdin);
 
-	while (atof(input) != 2 && atof(input) !=2 && atof(input) !=3 )
+	while (atof(input) != 1 && atof(input) !=2 )
 	{
 		cout << "Date incorecte!\n";
 		fgets(input,10, stdin);
@@ -82,14 +83,14 @@ int settingLevel()
 //setings: 1vs1-2; 1vsC-1;
 int settingPlayer()
 {
-	cout << "Alegeti tipul jocului: \nPlayer vs Computer -> 1 \nPlayer vs Player ->2 \n";
+	cout << "Alegeti tipul jocului: \nPlayer vs Computer -> 1 \nPlayer vs Player -> 2 \n";
 	
 	char input[10];
 
 
 	fgets(input, 10, stdin);
 
-	while (atof(input) != 2 && atof(input) != 2)
+	while (atof(input) != 1 && atof(input) != 2)
 	{
 		cout << "Date incorecte!\n";
 		fgets(input, 10, stdin);
@@ -416,9 +417,6 @@ void AI2Move()
 
 }
 
-//computer moves: hard AI
-void AI3Move();
-
 
 void move(int a)
 {
@@ -426,7 +424,6 @@ void move(int a)
 		AI1Move();
 	else if (a == 2)
 		AI2Move();
-
 }
 
 
@@ -652,6 +649,7 @@ void startGame(int &totalGames, int &winGames)
 		setL = settingLevel();
 		firstPlayer();
 		playerVsComputer(totalGames,winGames);
+
 	}
 	else
 	{
